@@ -1,0 +1,24 @@
+{
+  "name": "nm2207-game",
+  "description": "Final project for NM2207.",
+  "main": "index.js",
+  "authors": [
+    "Jonathan Lau"
+  ],
+  "license": "UNLICENSED",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "qrious": "^2.1.0",
+    "socket.io-client": "^1.5.0",
+    "gyro.js": "^1.0.0",
+    "Matter": "matter-js#^0.10.0"
+  }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NM2207 Game</title>
+  <meta name="author" content="Jonathan Lau">
+  <link rel="stylesheet" href="/css/host.css">
+</head>
+
+<body>
+
+  <div id="disconnected">
+    <div>
+      <p class="lead">To join the game, scan the QR code or type in the URL on your mobile device.</p>
+      <div id="qr">
+        <canvas></canvas>
+      </div>
+      <div id="url"></div>
+    </div>
+  </div>
+
+  <div id="connected" class="hidden">
+    <div id="game-overlay" class="hidden">
+      <div class="middle">
+        <p>
+          Score<br>
+          <span id="game-score">0</span>
+        </p>
+        <p>
+          Your Record<br>
+          <span id="record-score">0</span>
+        </p>
+      </div>
+    </div>
+    <div id="game-canvas"></div>
+  </div>
+
+  <script src="/bower_components/qrious/dist/umd/qrious.min.js"></script>
+  <script src="/bower_components/Matter/build/matter.js"></script>
+  <script src="/bower_components/socket.io-client/socket.io.js"></script>
+  <script src="/js/game.js"></script>
+  <script src="/js/host.js"></script>
+</body>
+</html>

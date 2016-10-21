@@ -1,0 +1,25 @@
+{
+  "name": "nm2207-game",
+  "version": "0.0.1",
+  "description": "Final project for NM2207.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonathan Lau",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lauweijie/nm2207-game.git"
+  },
+  "dependencies": {
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "socket.io": "^1.5.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-sass": "^2.3.2"
+  }
+}
