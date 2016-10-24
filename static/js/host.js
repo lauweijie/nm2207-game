@@ -14,10 +14,6 @@
   // Generate random game ID.
   var gameId = Math.random().toString(36).slice(-5).toUpperCase();
 
-  // Fix game ID for testing.
-  // TODO: Remove after testing.
-  gameId = 'TEST';
-
   // High score for current session.
   var highScore = 0;
 

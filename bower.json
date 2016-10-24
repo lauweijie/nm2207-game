@@ -16,9 +16,10 @@
     "tests"
   ],
   "dependencies": {
-    "qrious": "^2.1.0",
-    "socket.io-client": "^1.5.0",
     "gyro.js": "^1.0.0",
-    "Matter": "matter-js#^0.10.0"
+    "howler.js": "~2.0.1",
+    "Matter": "matter-js#^0.10.0",
+    "qrious": "^2.1.0",
+    "socket.io-client": "^1.5.0"
   }
 }

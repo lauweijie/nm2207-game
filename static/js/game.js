@@ -40,11 +40,20 @@ var Game = (function() {
         },
     });
 
-    // Preload audio.
-    this.bgAudio = new Audio();
-    this.bgAudio.src = '/audio/bg.mp3';
-    this.sfxAudio = new Audio();
-    this.sfxAudio.src = '/audio/sfx.mp3';
+    // Load audio.
+    this.bgAudio = new Howl({
+      src: ['/audio/bg.mp3'],
+      loop: true,
+    });
+    this.bounceSfx = new Howl({
+      src: ['/audio/sfx-bounce.mp3'],
+    });
+    this.dingSfx = new Howl({
+      src: ['/audio/sfx-ding.mp3'],
+    });
+    this.crashSfx = new Howl({
+      src: ['/audio/sfx-crash.mp3'],
+    });
 
     // Add game loop.
     Events.on(this.engine, 'tick', this.gameLoop_.bind(this));
@@ -163,6 +172,8 @@ var Game = (function() {
     this.started = true;
     if (!this.isInit) this.init();
     this.controllerCallbacks.gameStarted();
+    // Start background music.
+    this.bgAudio.play();
   };
 
 
@@ -177,6 +188,9 @@ var Game = (function() {
     if (this.runner) Matter.Runner.stop(this.runner);
     Render.stop(this.render);
 
+    // Stop background music.
+    this.bgAudio.stop();
+
     this.controllerCallbacks.gameEnded(this.score);
   };
 
@@ -186,6 +200,7 @@ var Game = (function() {
    */
   Game.prototype.jump = function() {
     if (!this.started) return;
+    this.bounceSfx.play();
     Body.setVelocity(this.ball, {x: 0, y: -5});
   };
 
@@ -216,6 +231,7 @@ var Game = (function() {
     // Check if ball is out of viewport.
     if (this.ball.position.y - Game.BALL_SIZE > this.render.bounds.max.y) {
       this.end();
+      this.crashSfx.play();
     }
 
     // Produce more challenges.
@@ -254,14 +270,14 @@ var Game = (function() {
         if (body.isChallenge_) {
           // End game.
           this.end();
+          this.crashSfx.play();
         } else if (body.isJewel_) {
           // Remove jewel.
           World.remove(this.engine.world, body);
           // Set ball color.
           this.setBallColor_(body.jewelColor_, body.jewelCollisionCategory_);
           // Play audio.
-          this.sfxAudio.currentTime = 0;
-          this.sfxAudio.play();
+          this.dingSfx.play();
           // Increase score.
           this.score += 1;
           this.controllerCallbacks.scoreChange(this.score);
