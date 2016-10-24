@@ -116,7 +116,7 @@ var Game = (function() {
     this.challenges = [];
 
     // Initialize first challenge.
-    this.addChallenge_(200);
+    this.addChallenge_(this.height - 600);
 
     // Reset gravity.
     this.engine.world.gravity.x = 0;
@@ -236,7 +236,7 @@ var Game = (function() {
 
     // Produce more challenges.
     if (this.lastChallengePosition > this.viewBound) {
-      this.addChallenge_(this.lastChallengePosition - this.getRandomInt_(400, 700));
+      this.addChallenge_(this.lastChallengePosition - this.getRandomInt_(400, 600));
     }
 
     // Iterate through challenges.
