@@ -178,6 +178,15 @@ var Game = (function() {
 
 
   /**
+   * Game over.
+   */
+  Game.prototype.gameOver = function() {
+    this.end();
+    this.controllerCallbacks.gameOver(this.score);
+  };
+
+
+  /**
    * Ends the game.
    */
   Game.prototype.end = function() {
@@ -190,8 +199,6 @@ var Game = (function() {
 
     // Stop background music.
     this.bgAudio.stop();
-
-    this.controllerCallbacks.gameEnded(this.score);
   };
 
 
@@ -230,7 +237,7 @@ var Game = (function() {
 
     // Check if ball is out of viewport.
     if (this.ball.position.y - Game.BALL_SIZE > this.render.bounds.max.y) {
-      this.end();
+      this.gameOver();
       this.crashSfx.play();
     }
 
@@ -268,8 +275,8 @@ var Game = (function() {
       if ((pair.bodyA == this.ball || pair.bodyB == this.ball)) {
         var body = pair.bodyA == this.ball ? pair.bodyB : pair.bodyA;
         if (body.isChallenge_) {
-          // End game.
-          this.end();
+          // Game over.
+          this.gameOver();
           this.crashSfx.play();
         } else if (body.isJewel_) {
           // Remove jewel.

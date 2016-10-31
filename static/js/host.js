@@ -57,6 +57,7 @@
   socket.on('controller-disconnected', function() {
     disconnectedEl.style.display = 'block';
     connectedEl.style.display = 'none';
+    game.end();
   });
 
   // Handle game messages.
@@ -106,7 +107,7 @@
       });
     },
 
-    gameEnded: function(score) {
+    gameOver: function(score) {
       socket.emit('message', {
         type: 'game-ended',
       });
