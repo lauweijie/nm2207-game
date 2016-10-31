@@ -17,11 +17,13 @@ html, body {
 #disconnected {
   text-align: center;
   font-size: 1.2em;
+  padding: 25px;
 
   svg {
     width: 50%;
+    max-width: 400px;
     display: block;
-    margin: 25px auto;
+    margin: 0 auto;
   }
 }
 
