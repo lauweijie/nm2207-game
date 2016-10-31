@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
 
 // Controller page.
 app.get('/join/:gameId', function(req, res) {
-  res.render('controller', {gameId: req.params.gameId});
+  res.render('controller', {gameId: req.params.gameId.toUpperCase()});
 });
 
 // Initialize games.
