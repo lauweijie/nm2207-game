@@ -1,0 +1,57 @@
+html, body {
+  margin: 0;
+  padding: 0; }
+
+body {
+  font-family: Tahoma; }
+
+.hidden {
+  display: none; }
+
+html, body {
+  height: 100%;
+  width: 100%; }
+
+#disconnected {
+  height: 100%;
+  width: 100%;
+  background: #eee;
+  text-align: center; }
+  #disconnected > div {
+    padding: 25px; }
+  #disconnected .lead {
+    font-size: 1.5em; }
+  #disconnected #qr {
+    display: inline-block;
+    padding: 25px;
+    background: #fff;
+    margin: 25px; }
+  #disconnected #url {
+    font-size: 2em; }
+
+#connected {
+  height: 100%;
+  width: 100%;
+  background: #000;
+  text-align: center; }
+  #connected #game-canvas {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    background-image: url(/img/bg.png); }
+  #connected #game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(241, 67, 63, 0.95); }
+    #connected #game-overlay .middle {
+      height: 100vh;
+      width: 100vw;
+      text-align: center;
+      font-size: 4em;
+      color: rgba(255, 255, 255, 0.9);
+      display: table-cell;
+      vertical-align: middle; }
