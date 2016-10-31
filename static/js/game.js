@@ -90,6 +90,9 @@ var Game = (function() {
   /** @const */
   Game.BALL_SIZE = 15;
 
+  /** @const */
+  Game.WALL_WIDTH = 30;
+
 
   /**
    * Initializes the game.
@@ -112,6 +115,9 @@ var Game = (function() {
     // Reset position of last challenge.
     this.lastChallengePosition = 0;
 
+    // Reset challenge counter.
+    this.challengeCount = 0;
+
     // Initialize array to keep track of challenges in view.
     this.challenges = [];
 
@@ -130,7 +136,7 @@ var Game = (function() {
     this.setBallColor_(Game.COLOR_1, Game.COLLISION_CATEGORY_1);
 
     // Create floor.
-    this.floor = Bodies.rectangle(this.width / 2, this.height, this.width, 30, {
+    this.floor = Bodies.rectangle(this.width / 2, this.height, this.width, Game.WALL_WIDTH, {
       isStatic: true,
       render: {
         fillStyle: '#555',
@@ -140,14 +146,14 @@ var Game = (function() {
     World.add(this.engine.world, this.floor);
 
     // Create left and right walls.
-    this.leftWall = Bodies.rectangle(0, this.height / 2, 30, this.height, {
+    this.leftWall = Bodies.rectangle(0, this.height / 2, Game.WALL_WIDTH, this.height, {
       isStatic: true,
       render: {
         fillStyle: '#555',
         lineWidth: 0.01,
       },
     });
-    this.rightWall = Bodies.rectangle(this.width, this.height / 2, 30,
+    this.rightWall = Bodies.rectangle(this.width, this.height / 2, Game.WALL_WIDTH,
         this.height, {
           isStatic: true,
           render: {
@@ -243,7 +249,7 @@ var Game = (function() {
 
     // Produce more challenges.
     if (this.lastChallengePosition > this.viewBound) {
-      this.addChallenge_(this.lastChallengePosition - this.getRandomInt_(400, 600));
+      this.addChallenge_(this.lastChallengePosition - this.getRandomInt_(300, 400));
     }
 
     // Iterate through challenges.
@@ -300,10 +306,29 @@ var Game = (function() {
    * @private
    */
   Game.prototype.addChallenge_ = function(yy) {
+    this.challengeCount++;
+    // Alternate between line and square.
+    switch (this.challengeCount % 2) {
+      case 0:
+        this.makeLineChallenge_(yy);
+        break;
+      case 1:
+        this.makeSquareChallenge_(yy);
+        break;
+    }
+  };
+
+
+  /**
+   * Makes a jewel.
+   * @param {Number} yy Y-position for the jewel.
+   * @private
+   */
+  Game.prototype.makeJewel_ = function(yy, color) {
     var xx = this.width / 2;
 
     var jewelColor, jewelCollisionCategory;
-    switch (this.getRandomInt_(1, 4)) {
+    switch (color) {
       case 1:
         jewelColor = Game.COLOR_1;
         jewelCollisionCategory = Game.COLLISION_CATEGORY_1;
@@ -333,7 +358,18 @@ var Game = (function() {
     jewel.jewelColor_ = jewelColor;
     jewel.jewelCollisionCategory_ = jewelCollisionCategory;
     World.add(this.engine.world, jewel);
+    return jewel;
+  };
 
+
+  /**
+   * Makes a square challenge.
+   * @param {Number} yy Y-position for the challenge.
+   * @private
+   */
+  Game.prototype.makeSquareChallenge_ = function(yy) {
+    var xx = this.width / 2;
+    var jewel = this.makeJewel_(yy, this.getRandomInt_(1,4));
     var challenge = this.makeSquareComposite_(xx, yy, this.getRandomInt_(200, 315), this.getRandomInt_(5,25));
     var rotationSpeed = .01 * this.getRandomInt_(1, 3) * (Math.random() > 0.5 ? -1 : 1);
     challenge.eventLoop_ = function() {
@@ -343,6 +379,27 @@ var Game = (function() {
         if (index != -1) this.challenges.splice(index, 1);
         World.remove(this.engine.world, challenge);
         World.remove(this.engine.world, jewel);
+      }
+    }.bind(this);
+
+    this.challenges.push(challenge);
+    this.lastChallengePosition = yy;
+    World.add(this.engine.world, challenge);
+  };
+
+
+  /**
+   * Makes a line challenge.
+   * @param {Number} yy Y-position for the challenge.
+   * @private
+   */
+  Game.prototype.makeLineChallenge_ = function(yy) {
+    var challenge = this.makeLineComposite_(yy, this.getRandomInt_(5,25));
+    challenge.eventLoop_ = function() {
+      if (this.viewBound + this.height + 500 < yy) {
+        var index = this.challenges.indexOf(challenge);
+        if (index != -1) this.challenges.splice(index, 1);
+        World.remove(this.engine.world, challenge);
       }
     }.bind(this);
 
@@ -454,6 +511,83 @@ var Game = (function() {
     Composite.addBody(square, bottom);
     Composite.addBody(square, right);
     return square;
+  };
+
+
+  /**
+   * Makes a line composite.
+   * @param {Number} xx Y-position of the composite.
+   * @param {Number} thickness Thickness of the composite.
+   * @private
+   */
+  Game.prototype.makeLineComposite_ = function(yy, thickness) {
+    var line = Composite.create({label: 'Line'});
+
+    var width = this.width - Game.WALL_WIDTH * 2;
+
+    var line1 = Bodies.rectangle(Game.WALL_WIDTH + width / 8, yy, width / 4, thickness, {
+      isStatic: true,
+      isSensor: true,
+      collisionFilter: {
+        mask: Game.COLLISION_CATEGORY_2 |
+              Game.COLLISION_CATEGORY_3 |
+              Game.COLLISION_CATEGORY_4,
+      },
+      render: {
+        fillStyle: Game.COLOR_1,
+        lineWidth: 0.01,
+      },
+    });
+    var line2 = Bodies.rectangle(Game.WALL_WIDTH + width * 3 / 8, yy, width / 4, thickness, {
+      isStatic: true,
+      isSensor: true,
+      collisionFilter: {
+        mask: Game.COLLISION_CATEGORY_1 |
+              Game.COLLISION_CATEGORY_3 |
+              Game.COLLISION_CATEGORY_4,
+      },
+      render: {
+        fillStyle: Game.COLOR_2,
+        lineWidth: 0.01,
+      },
+    });
+    var line3 = Bodies.rectangle(Game.WALL_WIDTH + width * 5 / 8, yy, width / 4, thickness, {
+      isStatic: true,
+      isSensor: true,
+      collisionFilter: {
+        mask: Game.COLLISION_CATEGORY_1 |
+              Game.COLLISION_CATEGORY_2 |
+              Game.COLLISION_CATEGORY_4,
+      },
+      render: {
+        fillStyle: Game.COLOR_3,
+        lineWidth: 0.01,
+      },
+    });
+    var line4 = Bodies.rectangle(Game.WALL_WIDTH + width * 7 / 8, yy, width / 4, thickness, {
+      isStatic: true,
+      isSensor: true,
+      collisionFilter: {
+        mask: Game.COLLISION_CATEGORY_1 |
+              Game.COLLISION_CATEGORY_2 |
+              Game.COLLISION_CATEGORY_3,
+      },
+      render: {
+        fillStyle: Game.COLOR_4,
+        lineWidth: 0.01,
+      },
+    });
+
+    line1.isChallenge_ = true;
+    line2.isChallenge_ = true;
+    line3.isChallenge_ = true;
+    line4.isChallenge_ = true;
+
+    Composite.addBody(line, line1);
+    Composite.addBody(line, line2);
+    Composite.addBody(line, line3);
+    Composite.addBody(line, line4);
+    return line;
   };
 
 
