@@ -436,6 +436,21 @@ var Game = (function() {
 
 
   /**
+   * Shuffles array in place.
+   * @param {Array} a items The array containing the items.
+   */
+  Game.prototype.shuffle_ = function(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+      j = Math.floor(Math.random() * i);
+      x = a[i - 1];
+      a[i - 1] = a[j];
+      a[j] = x;
+    }
+  };
+
+
+  /**
    * Makes a square composite.
    * @param {Number} xx X-position of the composite.
    * @param {Number} xx Y-position of the composite.
@@ -522,10 +537,16 @@ var Game = (function() {
    */
   Game.prototype.makeLineComposite_ = function(yy, thickness) {
     var line = Composite.create({label: 'Line'});
-
     var width = this.width - Game.WALL_WIDTH * 2;
-
-    var line1 = Bodies.rectangle(Game.WALL_WIDTH + width / 8, yy, width / 4, thickness, {
+    var positions = [
+      Game.WALL_WIDTH + width / 8,
+      Game.WALL_WIDTH + width * 3 / 8,
+      Game.WALL_WIDTH + width * 5 / 8,
+      Game.WALL_WIDTH + width * 7 / 8
+    ];
+    // Randomize colors.
+    this.shuffle_(positions);
+    var line1 = Bodies.rectangle(positions[0], yy, width / 4, thickness, {
       isStatic: true,
       isSensor: true,
       collisionFilter: {
@@ -538,7 +559,7 @@ var Game = (function() {
         lineWidth: 0.01,
       },
     });
-    var line2 = Bodies.rectangle(Game.WALL_WIDTH + width * 3 / 8, yy, width / 4, thickness, {
+    var line2 = Bodies.rectangle(positions[1], yy, width / 4, thickness, {
       isStatic: true,
       isSensor: true,
       collisionFilter: {
@@ -551,7 +572,7 @@ var Game = (function() {
         lineWidth: 0.01,
       },
     });
-    var line3 = Bodies.rectangle(Game.WALL_WIDTH + width * 5 / 8, yy, width / 4, thickness, {
+    var line3 = Bodies.rectangle(positions[2], yy, width / 4, thickness, {
       isStatic: true,
       isSensor: true,
       collisionFilter: {
@@ -564,7 +585,7 @@ var Game = (function() {
         lineWidth: 0.01,
       },
     });
-    var line4 = Bodies.rectangle(Game.WALL_WIDTH + width * 7 / 8, yy, width / 4, thickness, {
+    var line4 = Bodies.rectangle(positions[3], yy, width / 4, thickness, {
       isStatic: true,
       isSensor: true,
       collisionFilter: {
