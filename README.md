@@ -4,6 +4,8 @@ Web-based physics game that uses your phone as a mobile controller.
 
 Final project for NM2207.
 
+![Screenshot](/screenshot.png?raw=true)
+
 ## Build
 
     $ npm install --dev && bower install
