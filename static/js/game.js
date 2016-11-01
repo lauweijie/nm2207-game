@@ -124,6 +124,11 @@ var Game = (function() {
     // Initialize first challenge.
     this.addChallenge_(this.height - 600);
 
+    // Initialize next few challenges within view.
+    while (this.lastChallengePosition > this.viewBound) {
+      this.addChallenge_(this.lastChallengePosition - this.getRandomInt_(300, 400));
+    }
+
     // Reset gravity.
     this.engine.world.gravity.x = 0;
 
