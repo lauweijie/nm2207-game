@@ -93,6 +93,9 @@ var Game = (function() {
   /** @const */
   Game.WALL_WIDTH = 30;
 
+  /** @const */
+  Game.WALL_COLOR = '#555';
+
 
   /**
    * Initializes the game.
@@ -144,7 +147,7 @@ var Game = (function() {
     this.floor = Bodies.rectangle(this.width / 2, this.height, this.width, Game.WALL_WIDTH, {
       isStatic: true,
       render: {
-        fillStyle: '#555',
+        fillStyle: Game.WALL_COLOR,
         lineWidth: 0.01,
       },
     });
@@ -154,7 +157,7 @@ var Game = (function() {
     this.leftWall = Bodies.rectangle(0, this.height / 2, Game.WALL_WIDTH, this.height, {
       isStatic: true,
       render: {
-        fillStyle: '#555',
+        fillStyle: Game.WALL_COLOR,
         lineWidth: 0.01,
       },
     });
@@ -162,7 +165,7 @@ var Game = (function() {
         this.height, {
           isStatic: true,
           render: {
-            fillStyle: '#555',
+            fillStyle: Game.WALL_COLOR,
             lineWidth: 0.01,
           },
         });
