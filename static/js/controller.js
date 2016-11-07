@@ -23,7 +23,7 @@
     connected = true;
     connectedEl.style.display = 'block';
 
-    gyro.frequency = 100;
+    gyro.frequency = 150;
     gyro.startTracking(function(o) {
       socket.emit('message', {type: 'direction', message: {x: o.x, y: o.y}});
     });
