@@ -378,8 +378,8 @@ var Game = (function() {
   Game.prototype.makeSquareChallenge_ = function(yy) {
     var xx = this.width / 2;
     var jewel = this.makeJewel_(yy, this.getRandomInt_(1,4));
-    var challenge = this.makeSquareComposite_(xx, yy, this.getRandomInt_(200, 315), this.getRandomInt_(5,25));
-    var rotationSpeed = .01 * this.getRandomInt_(1, 3) * (Math.random() > 0.5 ? -1 : 1);
+    var challenge = this.makeSquareComposite_(xx, yy, this.getRandomInt_(300, 325), this.getRandomInt_(5,20));
+    var rotationSpeed = .01  * (Math.random() > 0.5 ? -1 : 1);
     challenge.eventLoop_ = function() {
       Composite.rotate(challenge, rotationSpeed, {x: xx, y: yy});
       if (this.viewBound + this.height + 500 < yy) {
