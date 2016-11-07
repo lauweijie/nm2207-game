@@ -222,7 +222,7 @@ var Game = (function() {
   Game.prototype.jump = function() {
     if (!this.started) return;
     this.bounceSfx.play();
-    Body.setVelocity(this.ball, {x: 0, y: -5});
+    Body.setVelocity(this.ball, {x: 0, y: -5.5});
   };
 
 
