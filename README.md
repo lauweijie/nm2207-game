@@ -6,9 +6,26 @@ Final project for NM2207.
 
 ![Screenshot](/screenshot.png?raw=true)
 
-## Build
+## Quick Start
 
-    $ npm install --dev && bower install
+Install dependencies and start the server on default port 8000.
+
+    $ npm install && bower install
+    $ node app.js
+
+To start the server on a custom port,
+
+    $ PORT=8080 node app.js
+
+## Development
+
+### Install dependencies
+
+    $ npm install -g gulp
+    $ npm install && bower install
+    
+### Build and run
+    
     $ gulp
 
 ## Credits
