@@ -59,7 +59,8 @@ var Game = (function() {
     Events.on(this.engine, 'tick', this.gameLoop_.bind(this));
 
     // Add event handler for collisions.
-    Events.on(this.engine, 'collisionStart', this.collisionEventHandler_.bind(this));
+    Events.on(this.engine, 'collisionStart',
+        this.collisionEventHandler_.bind(this));
   };
 
 
@@ -129,7 +130,8 @@ var Game = (function() {
 
     // Initialize next few challenges within view.
     while (this.lastChallengePosition > this.viewBound) {
-      this.addChallenge_(this.lastChallengePosition - this.getRandomInt_(300, 400));
+      this.addChallenge_(
+          this.lastChallengePosition - this.getRandomInt_(300, 400));
     }
 
     // Reset gravity.
@@ -144,7 +146,8 @@ var Game = (function() {
     this.setBallColor_(Game.COLOR_1, Game.COLLISION_CATEGORY_1);
 
     // Create floor.
-    this.floor = Bodies.rectangle(this.width / 2, this.height, this.width, Game.WALL_WIDTH, {
+    this.floor = Bodies.rectangle(this.width / 2, this.height, this.width,
+        Game.WALL_WIDTH, {
       isStatic: true,
       render: {
         fillStyle: Game.WALL_COLOR,
@@ -154,15 +157,16 @@ var Game = (function() {
     World.add(this.engine.world, this.floor);
 
     // Create left and right walls.
-    this.leftWall = Bodies.rectangle(0, this.height / 2, Game.WALL_WIDTH, this.height, {
-      isStatic: true,
-      render: {
-        fillStyle: Game.WALL_COLOR,
-        lineWidth: 0.01,
-      },
-    });
-    this.rightWall = Bodies.rectangle(this.width, this.height / 2, Game.WALL_WIDTH,
+    this.leftWall = Bodies.rectangle(0, this.height / 2, Game.WALL_WIDTH,
         this.height, {
+          isStatic: true,
+          render: {
+            fillStyle: Game.WALL_COLOR,
+            lineWidth: 0.01,
+          },
+        });
+    this.rightWall = Bodies.rectangle(this.width, this.height / 2,
+        Game.WALL_WIDTH, this.height, {
           isStatic: true,
           render: {
             fillStyle: Game.WALL_COLOR,
@@ -257,7 +261,8 @@ var Game = (function() {
 
     // Produce more challenges.
     if (this.lastChallengePosition > this.viewBound) {
-      this.addChallenge_(this.lastChallengePosition - this.getRandomInt_(300, 400));
+      this.addChallenge_(
+          this.lastChallengePosition - this.getRandomInt_(300, 400));
     }
 
     // Iterate through challenges.
@@ -378,7 +383,8 @@ var Game = (function() {
   Game.prototype.makeSquareChallenge_ = function(yy) {
     var xx = this.width / 2;
     var jewel = this.makeJewel_(yy, this.getRandomInt_(1,4));
-    var challenge = this.makeSquareComposite_(xx, yy, this.getRandomInt_(300, 325), this.getRandomInt_(5,20));
+    var challenge = this.makeSquareComposite_(xx, yy,
+        this.getRandomInt_(300, 325), this.getRandomInt_(5,20));
     var rotationSpeed = .01  * (Math.random() > 0.5 ? -1 : 1);
     challenge.eventLoop_ = function() {
       Composite.rotate(challenge, rotationSpeed, {x: xx, y: yy});
